@@ -5,17 +5,18 @@ let run = 1;
 function getComputerChoice() {
   const computerChoice = Math.floor(Math.random() * 3) + 1;
   if (computerChoice === 1) {
+    const computerChoice = document.getElementsByClassName("computerChoice");
+    computerChoice[0].textContent = `Computer chose Rock`;
     return "Rock";
   } else if (computerChoice === 2) {
+    const computerChoice = document.getElementsByClassName("computerChoice");
+    computerChoice[0].textContent = `Computer chose Paper`;
     return "Paper";
   } else {
+    const computerChoice = document.getElementsByClassName("computerChoice");
+    computerChoice[0].textContent = `Computer chose Scissors`;
     return "Scissors";
   }
-}
-
-function getHumanChoice() {
-  const humanChoice = prompt("What is your move? (Rock, Paper, or Scissors?)");
-  return humanChoice;
 }
 
 function playRound(humanChoice, computerChoice) {
@@ -23,42 +24,36 @@ function playRound(humanChoice, computerChoice) {
   computerChoice = computerChoice.toLowerCase();
 
   if (humanChoice === computerChoice) {
-    console.log(`It's a tie! You both chose ${humanChoice.charAt(0).toUpperCase() + humanChoice.slice(1)}`);
+    const result = document.getElementsByClassName("result");
+    result[0].textContent = `Result: Tie.`;
+
   } else if (
-    (humanChoice === 'rock' && computerChoice === 'scissors') ||
-    (humanChoice === 'paper' && computerChoice === 'rock') ||
-    (humanChoice === 'scissors' && computerChoice === 'paper')
+    (humanChoice === "rock" && computerChoice === "scissors") ||
+    (humanChoice === "paper" && computerChoice === "rock") ||
+    (humanChoice === "scissors" && computerChoice === "paper")
   ) {
-    console.log(`You win! ${humanChoice.charAt(0).toUpperCase() + humanChoice.slice(1)} beats ${computerChoice.charAt(0).toUpperCase() + computerChoice.slice(1)}`);
+    const result = document.getElementsByClassName("result");
+    result[0].textContent = `Result: You win.`;
+
     humanScore += 1;
+    const humanScoreText = document.getElementsByClassName("playerscore");
+    humanScoreText[0].textContent = `Player = ${humanScore}`;
   } else {
-    console.log(`You lose! ${computerChoice.charAt(0).toUpperCase() + computerChoice.slice(1)} beats ${humanChoice.charAt(0).toUpperCase() + humanChoice.slice(1)}`);
+    const result = document.getElementsByClassName("result");
+    result[0].textContent = `Result: You lose.`;
+
     computerScore += 1;
+    const computerScoreText = document.getElementsByClassName("computerscore");
+    computerScoreText[0].textContent = `Computer = ${computerScore}`;
   }
 }
 
-const humanSelection = getHumanChoice();
-const computerSelection = getComputerChoice();
+const buttons = document.querySelectorAll("button");
+buttons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const playerChoice = document.getElementsByClassName("playerChoice");
+  playerChoice[0].textContent = `You chose ${button.id}`;
+    playRound(button.id, getComputerChoice());
+  });
+});
 
-function playGame() {
-    let humanScore = 0;
-    let computerScore = 0;
-  
-    for (let i = 1; i < 5; i++) {
-      const humanSelection = getHumanChoice();
-      const computerSelection = getComputerChoice();
-      playRound(humanSelection, computerSelection);
-    }
-  
-    if (humanScore > computerScore) {
-      console.log(`You won the game! Final score: You ${humanScore} - Computer ${computerScore}`);
-    } else if (computerScore > humanScore) {
-      console.log(`You lost the game. Final score: You ${humanScore} - Computer ${computerScore}`);
-    } else {
-      console.log(`The game is a tie! Final score: You ${humanScore} - Computer ${computerScore}`);
-    }
-  }
-  
-  while (run == 1) {
-    playGame();
-  }
